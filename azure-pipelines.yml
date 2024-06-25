@@ -32,3 +32,22 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(build.artifactStagingDirectory)'
+    Contents: '**'
+    TargetFolder: '$(build.artifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(build.artifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'MinimalApiProjectSC'
+    appType: 'webApp'
+    appName: 'MinimalApiProject'
+    package: '$(build.artifactStagingDirectory)/**/*.zip'
