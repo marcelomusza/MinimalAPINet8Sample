@@ -39,16 +39,12 @@ steps:
     Contents: '**'
     TargetFolder: '$(build.artifactStagingDirectory)'
 
-- task: PublishBuildArtifacts@1
+# ...
+# do this after you've built your app, near the end of your pipeline in most cases
+# for example, you do this before you deploy to an Azure web app on Windows
+- task: DotNetCoreCLI@2
   inputs:
-    PathtoPublish: '$(build.artifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
-
-- task: AzureRmWebAppDeployment@4
-  inputs:
-    ConnectionType: 'AzureRM'
-    azureSubscription: 'MinimalApiProjectSC'
-    appType: 'webAppLinux'
-    WebAppName: 'MinimalApiProject'
-    packageForLinux: '$(build.artifactStagingDirectory)/**/*.zip'
+    command: publish
+    publishWebProjects: True
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: True
