@@ -45,9 +45,10 @@ steps:
     ArtifactName: 'drop'
     publishLocation: 'Container'
 
-- task: AzureWebApp@1
+- task: AzureRmWebAppDeployment@4
   inputs:
+    ConnectionType: 'AzureRM'
     azureSubscription: 'MinimalApiProjectSC'
-    appType: 'webApp'
-    appName: 'MinimalApiProject'
-    package: '$(build.artifactStagingDirectory)/**/*.zip'
+    appType: 'webAppLinux'
+    WebAppName: 'MinimalApiProject'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
