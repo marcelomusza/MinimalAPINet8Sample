@@ -51,4 +51,4 @@ steps:
     azureSubscription: 'MinimalApiProjectSC'
     appType: 'webAppLinux'
     WebAppName: 'MinimalApiProject'
-    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    packageForLinux: '$(build.artifactStagingDirectory)/**/*.zip'
